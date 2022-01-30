@@ -56,13 +56,14 @@ function updateValue(e) {
 //functie pentru validare email daca contine caracterile necesare din mail
 function mailValidation(e) {
     const inputValue = e.target.value
-    const validRegex = /^[a-z A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z A-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const validRegex = `[a-z A-Z 0-9 .!#$%&'*+/=?^_\`{|}~-]+@[a-z A-Z]+.[a-z A-Z]`
+        // /^[a-z A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z A-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (inputValue.match(validRegex)) {
         invalidEmail.classList.remove("invalidMessage")
         invalidEmail.classList.add("validMessage")
         validBtnEmail = true
         // console.log(validBtnEmail, "input 2");
-    } else {
+    } if(inputValue.startsWith('@') || inputValue.startsWith(".") || inputValue.includes("@@")) {
         invalidEmail.classList.remove("validMessage")
         invalidEmail.classList.add("invalidMessage")
         validBtnEmail = false
