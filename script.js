@@ -28,17 +28,17 @@ inputConfPwd.addEventListener("input", validConfirmPassword);
 //functie pentru eveniment care verifica lungimea str
 function updateValue(e) {
     const inputValue = e.target.value
-    if (inputValue.length < 3) {
+    if (inputValue.length <= 3) {
         invalidUser.classList.remove("validMessage")
         invalidUser.classList.add("invalidMessage")
         validBtnUserName = false
-        console.log(validBtnUserName, "input 1");
+        // console.log(validBtnUserName, "input 1");
     }
     if (inputValue.length > 3) {
         invalidUser.classList.remove("invalidMessage")
         invalidUser.classList.add("validMessage")
         validBtnUserName = true
-        console.log(validBtnUserName, "input 1");
+        // console.log(validBtnUserName, "input 1");
     }
     if (inputValue.length === 0) {
         invalidUser.classList.remove("invalidMessage")
@@ -47,24 +47,26 @@ function updateValue(e) {
     }
     if (validBtnUserName && validBtnEmail && validBtnPassword && validBtnConfPwd) {
         btnSubmit.classList.remove("btnDisabled")
-        console.log(btnSubmit);
+        // console.log(btnSubmit);
+    }else{
+        btnSubmit.classList.add("btnDisabled")
     }
 }
 
 //functie pentru validare email daca contine caracterile necesare din mail
 function mailValidation(e) {
-    let dot = e.target.value.lastIndexOf('.'); //9
-    let aron = e.target.value.indexOf('@'); //5
-    if (dot - aron > 2 && e.target.value.length - dot > 2 && aron > 2 && e.target.value.indexOf('@@') === -1) {
+    const inputValue = e.target.value
+    const validRegex = /^[a-z A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z A-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (inputValue.match(validRegex)) {
         invalidEmail.classList.remove("invalidMessage")
         invalidEmail.classList.add("validMessage")
         validBtnEmail = true
-        console.log(validBtnEmail, "input 2");
+        // console.log(validBtnEmail, "input 2");
     } else {
         invalidEmail.classList.remove("validMessage")
         invalidEmail.classList.add("invalidMessage")
         validBtnEmail = false
-        console.log(validBtnEmail, "input 2");
+        // console.log(validBtnEmail, "input 2");
 
     }
     if (e.target.value.length <= 0) {
@@ -74,6 +76,8 @@ function mailValidation(e) {
     }
     if (validBtnUserName && validBtnEmail && validBtnPassword && validBtnConfPwd) {
         btnSubmit.classList.remove("btnDisabled")
+    }else{
+        btnSubmit.classList.add("btnDisabled")
     }
 }
 
@@ -85,13 +89,13 @@ function validPassword(e) {
         invalidPassword.classList.remove("validMessage")
         invalidPassword.classList.add("invalidMessage")
         validBtnPassword = false
-        console.log(validBtnPassword, "input 3");
+        // console.log(validBtnPassword, "input 3");
     }
     if (inputValue.length >= 6) {
         invalidPassword.classList.remove("invalidMessage")
         invalidPassword.classList.add("validMessage")
         validBtnPassword = true
-        console.log(validBtnPassword, "input 3");
+        // console.log(validBtnPassword, "input 3");
     }
     if (e.target.value.length <= 0) {
         invalidPassword.classList.remove("invalidMessage")
@@ -101,6 +105,8 @@ function validPassword(e) {
     if (validBtnUserName && validBtnEmail && validBtnPassword && validBtnConfPwd) {
         btnSubmit.classList.remove("btnDisabled")
 
+    }else{
+        btnSubmit.classList.add("btnDisabled")
     }
 }
 
@@ -112,13 +118,13 @@ function validConfirmPassword(e) {
         invalidConfPwd.classList.remove("invalidMessage")
         invalidConfPwd.classList.add("validMessage")
         validBtnConfPwd = true
-        console.log(validBtnConfPwd, "input 4");
+        // console.log(validBtnConfPwd, "input 4");
     }
     if (inputValue !== inputPwd.value) {
         invalidConfPwd.classList.remove("validMessage")
         invalidConfPwd.classList.add("invalidMessage")
         validBtnConfPwd = false
-        console.log(validBtnConfPwd, "input 4");
+        // console.log(validBtnConfPwd, "input 4");
     }
     if (inputValue.length <= 0) {
         invalidConfPwd.classList.remove("invalidMessage")
@@ -127,15 +133,11 @@ function validConfirmPassword(e) {
     }
     if (validBtnUserName && validBtnEmail && validBtnPassword && validBtnConfPwd) {
         btnSubmit.classList.remove("btnDisabled")
-
+    }else{
+        btnSubmit.classList.add("btnDisabled")
     }
 }
 
-// btnSubmit.addEventListener("click",  ev => {
-//     if (validBtnUserName && validBtnEmail && validBtnPassword && validBtnConfPwd) {
-//         ev.classList.remove("btnDisabled");
-//     }
-// })
 
 
 
