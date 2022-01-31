@@ -23,12 +23,12 @@ button{
     font-size: 24px;
 }
 
-.invalidMessage{
+.showErrorMessage{
     display: block;
     color: red;
 }
 
-.validMessage{
+.hideErrorMessage{
     display: none;
 
 }

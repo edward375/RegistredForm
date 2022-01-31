@@ -2,142 +2,166 @@ const btnSubmit = document.querySelector(".btnDisabled");
 const inputEmail = document.querySelector(".email");
 const inputPwd = document.querySelector(".password");
 const inputConfPwd = document.querySelector(".confirmPassword");
-// const rest = document.querySelector(".result")
 const inputUser = document.querySelector('.inputUser')
 const invalidUser = inputUser.nextElementSibling
 const invalidEmail = inputEmail.nextElementSibling
 const invalidPassword = inputPwd.nextElementSibling
 const invalidConfPwd = inputConfPwd.nextElementSibling
 
-let validBtnUserName = false;
-let validBtnEmail = false;
-let validBtnPassword = false;
-let validBtnConfPwd = false;
+const validButtonSubmit = {
+    userName: false,
+    email: false,
+    firstPassword: false,
+    secondPassword: false,
+}
 
-// eveniment pentru inputul din html inputUser
-inputUser.addEventListener('input', updateValue);
-//eveniment la inputmail din html care ii atribuim functia pentru validare a mail
+inputUser.addEventListener('input', userNameValidation);
 inputEmail.addEventListener('input', mailValidation);
-//apelam functia in eveniment pentru inputul paswod din html
 inputPwd.addEventListener("input", validPassword);
-//apelam functia in eveniment pentru inputul paswodconfirm din html
 inputConfPwd.addEventListener("input", validConfirmPassword);
-// btnSubmit.addEventListener("submit", submitBtnVerif);
 
 
-//functie pentru eveniment care verifica lungimea str
-function updateValue(e) {
-    const inputValue = e.target.value
+function userNameValidation(e) {
+    const inputValue = e.target.value.trim()
     if (inputValue.length <= 3) {
-        invalidUser.classList.remove("validMessage")
-        invalidUser.classList.add("invalidMessage")
-        validBtnUserName = false
-        // console.log(validBtnUserName, "input 1");
+        showErrorMessage(invalidUser, "userName")
     }
     if (inputValue.length > 3) {
-        invalidUser.classList.remove("invalidMessage")
-        invalidUser.classList.add("validMessage")
-        validBtnUserName = true
-        // console.log(validBtnUserName, "input 1");
+        hideMessageError(invalidUser, "userName")
     }
-    if (inputValue.length === 0) {
-        invalidUser.classList.remove("invalidMessage")
-        invalidUser.classList.add("validMessage")
-        validBtnUserName = false
+    if (!inputValue.length) {
+        hideMessageError(invalidUser, "userName")
     }
-    if (validBtnUserName && validBtnEmail && validBtnPassword && validBtnConfPwd) {
-        btnSubmit.classList.remove("btnDisabled")
-        // console.log(btnSubmit);
-    }else{
-        btnSubmit.classList.add("btnDisabled")
-    }
+    validationSubmit()
 }
 
-//functie pentru validare email daca contine caracterile necesare din mail
 function mailValidation(e) {
     const inputValue = e.target.value
-    const validRegex = `[a-z A-Z 0-9 .!#$%&'*+/=?^_\`{|}~-]+@[a-z A-Z]+.[a-z A-Z]`
-        // /^[a-z A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z A-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const validRegex = `[a-z A-Z 0-9 !#$%&'*+/=?^_\`{|}~-]+@[a-z A-Z]+.[a-z A-Z]`;
     if (inputValue.match(validRegex)) {
-        invalidEmail.classList.remove("invalidMessage")
-        invalidEmail.classList.add("validMessage")
-        validBtnEmail = true
-        // console.log(validBtnEmail, "input 2");
-    } if(inputValue.startsWith('@') || inputValue.startsWith(".") || inputValue.includes("@@")) {
-        invalidEmail.classList.remove("validMessage")
-        invalidEmail.classList.add("invalidMessage")
-        validBtnEmail = false
-        // console.log(validBtnEmail, "input 2");
-
+        hideMessageError(invalidEmail, "email")
     }
-    if (e.target.value.length <= 0) {
-        invalidEmail.classList.remove("invalidMessage")
-        invalidEmail.classList.add("validMessage")
-        validBtnEmail = false
+    if (inputValue.startsWith('@') || inputValue.startsWith(".") || inputValue.includes("@@") || !inputValue.match(validRegex)) {
+        showErrorMessage(invalidEmail, "email")
     }
-    if (validBtnUserName && validBtnEmail && validBtnPassword && validBtnConfPwd) {
-        btnSubmit.classList.remove("btnDisabled")
-    }else{
-        btnSubmit.classList.add("btnDisabled")
+    if (!inputValue.length) {
+        hideMessageError(invalidEmail, "email")
     }
+    validationSubmit()
 }
-
-//creiem o functie pentru a verifica lungimea parolei
 
 function validPassword(e) {
-    const inputValue = e.target.value
+    const inputValue = e.target.value.trim()
     if (inputValue.length < 6) {
-        invalidPassword.classList.remove("validMessage")
-        invalidPassword.classList.add("invalidMessage")
-        validBtnPassword = false
-        // console.log(validBtnPassword, "input 3");
+        showErrorMessage(invalidPassword, "firstPassword")
+        // console.log(showErrorMessage(invalidPassword, "firstPassword"), "1");
     }
     if (inputValue.length >= 6) {
-        invalidPassword.classList.remove("invalidMessage")
-        invalidPassword.classList.add("validMessage")
-        validBtnPassword = true
-        // console.log(validBtnPassword, "input 3");
+        hideMessageError(invalidPassword, "firstPassword")
+        // console.log(hideMessageError(invalidPassword, "firstPassword"), "2");
     }
-    if (e.target.value.length <= 0) {
-        invalidPassword.classList.remove("invalidMessage")
-        invalidPassword.classList.add("validMessage")
-        validBtnPassword = false
+    if (!inputValue.length) {
+        hideMessageError(invalidPassword, "firstPassword")
+        // console.log(hideMessageError(invalidPassword, "firstPassword"), "3");
     }
-    if (validBtnUserName && validBtnEmail && validBtnPassword && validBtnConfPwd) {
-        btnSubmit.classList.remove("btnDisabled")
-
-    }else{
-        btnSubmit.classList.add("btnDisabled")
+    validationSubmit()
+    if (inputValue !== inputConfPwd.value) {
+        // showErrorMessage(invalidConfPwd)
+        hideMessageError(invalidConfPwd, "secondPassword")
+        // console.log(hideMessageError(), "4");
     }
 }
-
-// functie care verifica daca prima parolo egala cu adoua
 
 function validConfirmPassword(e) {
-    const inputValue = e.target.value
-    if (inputValue === inputPwd.value) {
-        invalidConfPwd.classList.remove("invalidMessage")
-        invalidConfPwd.classList.add("validMessage")
-        validBtnConfPwd = true
-        // console.log(validBtnConfPwd, "input 4");
+    const inputValue = e.target.value.trim()
+    if (inputValue.includes(inputPwd.value.trim())) {
+        hideMessageError(invalidConfPwd, "secondPassword")
     }
-    if (inputValue !== inputPwd.value) {
-        invalidConfPwd.classList.remove("validMessage")
-        invalidConfPwd.classList.add("invalidMessage")
-        validBtnConfPwd = false
-        // console.log(validBtnConfPwd, "input 4");
+    if (inputValue !== inputPwd.value.trim()) {
+        showErrorMessage(invalidConfPwd, "secondPassword")
     }
-    if (inputValue.length <= 0) {
-        invalidConfPwd.classList.remove("invalidMessage")
-        invalidConfPwd.classList.add("validMessage")
-        validBtnConfPwd = false
+    if (!inputValue.length) {
+        hideMessageError(invalidConfPwd, "secondPassword")
     }
-    if (validBtnUserName && validBtnEmail && validBtnPassword && validBtnConfPwd) {
-        btnSubmit.classList.remove("btnDisabled")
-    }else{
-        btnSubmit.classList.add("btnDisabled")
-    }
+    validationSubmit()
 }
+
+
+function validationSubmit() {
+
+
+    // for (let value of Object.values(validButtonSubmit)) {
+    //
+    //     value ? btnSubmit.classList.remove("btnDisabled") : btnSubmit.classList.add("btnDisabled")
+    // }
+    // validButtonSubmit.userName && validButtonSubmit.email && validButtonSubmit.firstPassword && validButtonSubmit.secondPassword ? btnSubmit.classList.remove("btnDisabled") : btnSubmit.classList.add("btnDisabled")
+}
+
+//objectValues, objectkeys
+
+function hideMessageError(element, key) {
+    element.classList.remove("showErrorMessage")
+    element.classList.add("hideErrorMessage")
+    validButtonSubmit[key] = true
+}
+
+function showErrorMessage(elementMessage, key) {
+    elementMessage.classList.remove("hideErrorMessage")
+    elementMessage.classList.add("showErrorMessage")
+    validButtonSubmit[key] = false
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
