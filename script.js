@@ -64,13 +64,15 @@ function validPassword(e) {
         hideMessageError(invalidPassword, "firstPassword")
         // console.log(hideMessageError(invalidPassword, "firstPassword"), "3");
     }
-    validationSubmit()
+
     if (inputValue !== inputConfPwd.value) {
         // showErrorMessage(invalidConfPwd)
         hideMessageError(invalidConfPwd, "secondPassword")
         // console.log(hideMessageError(), "4");
     }
+    validationSubmit()
 }
+
 
 function validConfirmPassword(e) {
     const inputValue = e.target.value.trim()
@@ -88,13 +90,15 @@ function validConfirmPassword(e) {
 
 
 function validationSubmit() {
-
-
-    // for (let value of Object.values(validButtonSubmit)) {
-    //
-    //     value ? btnSubmit.classList.remove("btnDisabled") : btnSubmit.classList.add("btnDisabled")
-    // }
-    // validButtonSubmit.userName && validButtonSubmit.email && validButtonSubmit.firstPassword && validButtonSubmit.secondPassword ? btnSubmit.classList.remove("btnDisabled") : btnSubmit.classList.add("btnDisabled")
+const validValues = Object.values(validButtonSubmit)
+   validValues.forEach((elem)=>{
+       console.log(elem);
+       if (elem === true){
+           return btnSubmit.classList.remove("btnDisabled")
+       }else {
+           btnSubmit.classList.add("btnDisabled")
+       }
+   })
 }
 
 //objectValues, objectkeys
