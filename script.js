@@ -8,6 +8,7 @@ const invalidEmail = inputEmail.nextElementSibling
 const invalidPassword = inputPwd.nextElementSibling
 const invalidConfPwd = inputConfPwd.nextElementSibling
 
+
 const validButtonSubmit = {
     userName: false,
     email: false,
@@ -54,21 +55,20 @@ function validPassword(e) {
     const inputValue = e.target.value.trim()
     if (inputValue.length < 6) {
         showErrorMessage(invalidPassword, "firstPassword")
-        // console.log(showErrorMessage(invalidPassword, "firstPassword"), "1");
+
     }
     if (inputValue.length >= 6) {
         hideMessageError(invalidPassword, "firstPassword")
-        // console.log(hideMessageError(invalidPassword, "firstPassword"), "2");
+
     }
     if (!inputValue.length) {
         hideMessageError(invalidPassword, "firstPassword")
-        // console.log(hideMessageError(invalidPassword, "firstPassword"), "3");
+
     }
 
-    if (inputValue !== inputConfPwd.value) {
-        // showErrorMessage(invalidConfPwd)
+    if (inputValue !== inputConfPwd.value && invalidConfPwd.value) {
         hideMessageError(invalidConfPwd, "secondPassword")
-        // console.log(hideMessageError(), "4");
+
     }
     validationSubmit()
 }
@@ -83,22 +83,23 @@ function validConfirmPassword(e) {
         showErrorMessage(invalidConfPwd, "secondPassword")
     }
     if (!inputValue.length) {
-        hideMessageError(invalidConfPwd, "secondPassword")
+        showErrorMessage(invalidConfPwd, "secondPassword")
     }
     validationSubmit()
 }
 
-
 function validationSubmit() {
-const validValues = Object.values(validButtonSubmit)
-   validValues.forEach((elem)=>{
-       console.log(elem);
-       if (elem === true){
-           return btnSubmit.classList.remove("btnDisabled")
-       }else {
-           btnSubmit.classList.add("btnDisabled")
-       }
-   })
+
+    const validValues = Object.values(validButtonSubmit)
+
+    const num = validValues.filter((elem) => {
+        return elem
+    }).length
+    if (num === 4) {
+        btnSubmit.classList.remove("btnDisabled")
+    } else {
+        btnSubmit.classList.add("btnDisabled")
+    }
 }
 
 //objectValues, objectkeys
